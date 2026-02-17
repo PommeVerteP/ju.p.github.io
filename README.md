@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Julie Pédeville - Account Manager</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
@@ -22,9 +22,13 @@
       --gray-400: #8a7c78;
       --gray-600: #4a3c3a;
       --gray-800: #1a0e0e;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
@@ -34,12 +38,15 @@
       overflow-x: hidden;
     }
 
+    /* ===== NAVIGATION ===== */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
       background: rgba(14,10,10,0.96);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
       transition: transform 0.3s;
+      padding-top: var(--safe-top);
     }
     nav.hidden { transform: translateY(-100%); }
     .nav-inner {
@@ -55,11 +62,22 @@
     }
     .nav-links a:hover, .nav-links a.active { color: var(--white); }
 
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; min-width: 44px; min-height: 44px; }
+    .nav-toggle span {
+      display: block; width: 22px; height: 2px; background: var(--white);
+      margin: 5px auto; border-radius: 2px; transition: all 0.3s;
+    }
+    .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* ===== HERO ===== */
     .hero {
-      min-height: 100vh;
+      min-height: 100vh; min-height: 100dvh;
       background: linear-gradient(160deg, #0a0606 0%, #130a0a 50%, #1e1010 100%);
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
+      padding-top: calc(60px + var(--safe-top));
     }
     .hero::before {
       content: ''; position: absolute; width: 600px; height: 600px;
@@ -113,6 +131,7 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.65rem 1.4rem; border-radius: 999px;
       font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: all 0.25s;
+      min-height: 44px;
     }
     .btn-primary { background: var(--maroon); color: var(--white); }
     .btn-primary:hover { background: var(--maroon-light); transform: translateY(-2px); }
@@ -127,6 +146,7 @@
       margin: 0 auto; border-radius: 2px; animation: scrollPulse 2s infinite;
     }
 
+    /* ===== SECTIONS ===== */
     section { padding: 5rem 2rem; }
     .section-inner { max-width: 900px; margin: 0 auto; }
     .section-label {
@@ -138,6 +158,7 @@
       font-weight: 600; color: var(--gray-800); margin-bottom: 3rem; letter-spacing: -0.02em;
     }
 
+    /* ===== EXPERIENCE ===== */
     #experience { background: var(--white); }
     .timeline { position: relative; }
     .timeline::before {
@@ -186,14 +207,11 @@
     .tag-c { background: #1a0808; color: #9e4040; }
     .tag-d { background: #1a0808; color: #a08888; }
 
+    /* ===== SKILLS ===== */
     #skills { background: var(--gray-50); }
     .skills-intro {
-      max-width: 700px;
-      margin: 0 auto 3rem;
-      text-align: center;
-      font-size: 1rem;
-      color: var(--gray-600);
-      line-height: 1.7;
+      max-width: 700px; margin: 0 auto 3rem; text-align: center;
+      font-size: 1rem; color: var(--gray-600); line-height: 1.7;
     }
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
     .skill-card {
@@ -208,25 +226,15 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1.4rem; margin-bottom: 1rem;
     }
-    .skill-card h3 { 
-      font-size: 1.05rem; 
-      font-weight: 700; 
-      color: var(--gray-800); 
-      margin-bottom: 0.65rem;
-      line-height: 1.3;
-    }
-    .skill-desc {
-      font-size: 0.88rem;
-      color: var(--gray-600);
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
+    .skill-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.65rem; line-height: 1.3; }
+    .skill-desc { font-size: 0.88rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 1rem; }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .skill-tags span {
       font-size: 0.75rem; color: var(--gray-600); background: var(--gray-100);
       padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 500;
     }
 
+    /* ===== INTERNSHIPS ===== */
     #internships { background: var(--white); }
     .internship-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
     .internship-card {
@@ -259,6 +267,7 @@
       width: 5px; height: 5px; border-radius: 50%; background: var(--maroon);
     }
 
+    /* ===== EDUCATION ===== */
     #education { background: var(--gray-50); }
     .edu-card {
       background: linear-gradient(135deg, #110808 0%, #1e1010 100%);
@@ -282,8 +291,9 @@
       width: 5px; height: 5px; border-radius: 50%; background: #9e3a3a;
     }
 
+    /* ===== LANGUAGES ===== */
     #languages { background: var(--white); }
-    .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .lang-card {
       background: var(--gray-50); border-radius: 12px; padding: 1.75rem;
       border: 1px solid var(--gray-200); text-align: center;
@@ -300,6 +310,7 @@
       background: linear-gradient(90deg, var(--maroon), var(--maroon-light)); border-radius: 2px;
     }
 
+    /* ===== CONTACT ===== */
     #contact { background: linear-gradient(160deg, #0a0606 0%, #130a0a 60%, #1e1010 100%); }
     #contact .section-label { color: #c08080; }
     #contact .section-title { color: var(--white); }
@@ -309,20 +320,21 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.75rem 1.6rem; border-radius: 999px;
       font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all 0.25s;
+      min-height: 44px;
     }
     .cta-email { background: var(--maroon); color: var(--white); }
     .cta-email:hover { background: var(--maroon-light); transform: translateY(-2px); }
     .cta-linkedin { border: 1px solid rgba(255,255,255,0.3); color: var(--white); }
     .cta-linkedin:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
 
+    /* ===== FOOTER ===== */
     footer {
       background: #080404; border-top: 1px solid rgba(255,255,255,0.06);
-      text-align: center; padding: 1.5rem; font-size: 0.8rem; color: var(--gray-400);
+      text-align: center; padding: 1.5rem; padding-bottom: calc(1.5rem + var(--safe-bottom));
+      font-size: 0.8rem; color: var(--gray-400);
     }
 
-    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
-    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--white); margin: 5px 0; border-radius: 2px; transition: all 0.3s; }
-
+    /* ===== ANIMATIONS ===== */
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeScale { to { opacity: 1; transform: scale(1); } }
     @keyframes slideRight { to { opacity: 1; transform: translateX(0); } }
@@ -331,18 +343,153 @@
       50% { opacity: 1; transform: scaleY(1.3); }
     }
 
+    /* ===== RESPONSIVE: Tablet landscape & small desktops ===== */
+    @media (max-width: 1024px) {
+      .section-inner { max-width: 100%; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .internship-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===== RESPONSIVE: Tablet portrait ===== */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-links.open {
+      .nav-links {
         display: flex; flex-direction: column; position: absolute;
-        top: 60px; left: 0; right: 0;
-        background: rgba(14,10,10,0.98); padding: 1rem 2rem 1.5rem; gap: 1rem;
+        top: calc(60px + var(--safe-top)); left: 0; right: 0;
+        background: rgba(14,10,10,0.98); padding: 0 2rem;
+        gap: 0; max-height: 0; overflow: hidden;
+        transition: max-height 0.35s ease, padding 0.35s ease;
       }
-      .nav-toggle { display: block; }
+      .nav-links.open {
+        max-height: 400px; padding: 1rem 2rem 1.5rem;
+      }
+      .nav-links a {
+        display: block; padding: 0.75rem 0;
+        min-height: 44px; display: flex; align-items: center;
+      }
+      .nav-toggle { display: flex; align-items: center; justify-content: center; }
+
+      .hero { min-height: auto; min-height: auto; padding: 7rem 1.5rem 4rem; }
+      .hero-content { max-width: 100%; }
+      .hero-photo { width: 110px; height: 110px; margin-bottom: 1.5rem; }
+      .hero-photo-placeholder { font-size: 2.4rem; }
+      .hero-tagline { font-size: 1rem; }
+      .hero-summary { font-size: 0.95rem; margin-bottom: 2rem; }
       .hero-stats { gap: 1.5rem; }
       .stat-number { font-size: 1.6rem; }
+      .hero-contact { flex-direction: column; align-items: center; }
+      .hero-contact a { width: 100%; max-width: 280px; justify-content: center; }
+
       section { padding: 3.5rem 1.25rem; }
+      .section-title { margin-bottom: 2rem; }
+      .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .internship-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .lang-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
       .edu-card { padding: 1.75rem; }
+      .edu-card h3 { font-size: 1.25rem; }
+      .job-header { flex-direction: column; gap: 0.25rem; }
+      .job-date { align-self: flex-start; }
+      .contact-links { flex-direction: column; }
+      .contact-links a { width: 100%; justify-content: center; }
+      .timeline-item { padding-left: 2rem; }
+    }
+
+    /* ===== RESPONSIVE: Large phones ===== */
+    @media (max-width: 540px) {
+      .hero { padding: 6rem 1rem 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero-tagline { font-size: 0.9rem; }
+      .hero-summary { font-size: 0.9rem; line-height: 1.6; }
+      .hero-stats { gap: 1rem; }
+      .stat-number { font-size: 1.4rem; }
+      .stat-label { font-size: 0.68rem; }
+
+      section { padding: 2.5rem 1rem; }
+      .section-title { font-size: 1.5rem; margin-bottom: 1.5rem; }
+      .skills-intro { font-size: 0.9rem; margin-bottom: 2rem; }
+      .skill-card { padding: 1.25rem; }
+      .skill-card h3 { font-size: 0.95rem; }
+      .skill-desc { font-size: 0.82rem; }
+      .skill-tags span { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
+      .internship-card { padding: 1.25rem; }
+      .internship-header { gap: 0.75rem; }
+      .internship-company { font-size: 0.92rem; }
+      .internship-bullets li { font-size: 0.82rem; }
+      .lang-grid { grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+      .lang-card { padding: 1.25rem 0.75rem; }
+      .lang-card h3 { font-size: 0.95rem; }
+      .lang-flag { font-size: 2rem; }
+      .edu-card { padding: 1.5rem; }
+      .edu-card h3 { font-size: 1.15rem; }
+      .edu-details li { font-size: 0.82rem; }
+      .job-bullets li { font-size: 0.85rem; }
+      .job-title { font-size: 1.05rem; }
+      .job-tag { font-size: 0.65rem; }
+      .timeline::before { left: 0; }
+      .timeline-item { padding-left: 1.5rem; margin-bottom: 2.5rem; }
+      .timeline-dot { left: -6px; width: 12px; height: 12px; }
+      .contact-text { font-size: 0.92rem; }
+      .contact-links a { font-size: 0.85rem; padding: 0.65rem 1.2rem; }
+      .scroll-indicator { bottom: 1rem; }
+    }
+
+    /* ===== RESPONSIVE: Small phones ===== */
+    @media (max-width: 380px) {
+      .nav-inner { padding: 0 1rem; }
+      .hero { padding: 5.5rem 0.75rem 2.5rem; }
+      .hero-photo { width: 90px; height: 90px; margin-bottom: 1.25rem; }
+      .hero-photo-placeholder { font-size: 2rem; }
+      .hero h1 { font-size: 1.7rem; }
+      .hero-tagline { font-size: 0.82rem; }
+      .hero-summary { font-size: 0.82rem; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .stat-number { font-size: 1.3rem; }
+      .hero-contact a { padding: 0.6rem 1rem; font-size: 0.8rem; }
+
+      section { padding: 2rem 0.75rem; }
+      .section-label { font-size: 0.7rem; }
+      .section-title { font-size: 1.3rem; }
+      .lang-grid { grid-template-columns: 1fr; }
+      .lang-card { display: flex; align-items: center; gap: 1rem; text-align: left; padding: 1rem 1.25rem; }
+      .lang-flag { font-size: 1.8rem; margin-bottom: 0; flex-shrink: 0; }
+      .lang-card h3 { margin-bottom: 0.1rem; }
+      .lang-bar { flex: 1; }
+      .lang-info { flex: 1; }
+      .edu-card { padding: 1.25rem; }
+      .edu-card h3 { font-size: 1.05rem; }
+      .edu-school { font-size: 0.85rem; }
+      .edu-details li { font-size: 0.8rem; padding-left: 1rem; }
+      .contact-text { font-size: 0.85rem; }
+      .internship-icon { width: 36px; height: 36px; }
+      .skill-icon { width: 40px; height: 40px; }
+    }
+
+    /* ===== RESPONSIVE: Landscape phones ===== */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .hero { min-height: auto; padding: 5rem 2rem 2rem; }
+      .hero-photo { width: 80px; height: 80px; margin-bottom: 1rem; }
+      .hero-photo-placeholder { font-size: 1.8rem; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero-tagline { font-size: 0.85rem; margin-bottom: 0.75rem; }
+      .hero-summary { font-size: 0.85rem; margin-bottom: 1.5rem; }
+      .hero-stats { gap: 1.5rem; }
+      .stat-number { font-size: 1.4rem; }
+      .hero-contact { margin-top: 1.5rem; }
+      .scroll-indicator { display: none; }
+    }
+
+    /* ===== Disable hover effects on touch devices ===== */
+    @media (hover: none) {
+      .skill-card:hover,
+      .internship-card:hover,
+      .lang-card:hover { transform: none; box-shadow: none; }
+      .btn-primary:hover, .btn-outline:hover,
+      .cta-email:hover, .cta-linkedin:hover { transform: none; }
+    }
+
+    /* ===== Reduced motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
@@ -351,10 +498,10 @@
 <nav id="navbar">
   <div class="nav-inner">
     <div class="nav-logo">Julie<span>.</span></div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <ul class="nav-links" id="navLinks">
+    <ul class="nav-links" id="navLinks" role="navigation">
       <li><a href="#experience">Experience</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#internships">Internships</a></li>
@@ -370,7 +517,7 @@
     <div class="hero-photo">
       <div class="hero-photo-placeholder">JP</div>
     </div>
-    <h1>Julie Pédeville</h1>
+    <h1>Julie P&eacute;deville</h1>
     <p class="hero-tagline">Account Manager &bull; CRM Strategist &bull; Revenue Growth Partner</p>
     <p class="hero-summary">
       Bilingual French-English professional with 7+ years of international experience driving revenue growth, managing strategic client relationships, and leading cross-functional teams across Europe, North America, and the Middle East.
@@ -398,7 +545,7 @@
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Get in Touch
       </a>
-      <a href="https://www.linkedin.com/in/julie-pedeville" target="_blank" class="btn-outline">
+      <a href="https://www.linkedin.com/in/julie-pedeville" target="_blank" rel="noopener noreferrer" class="btn-outline">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
         LinkedIn
       </a>
@@ -525,7 +672,6 @@
     </p>
     <div class="skills-grid">
 
-      <!-- Account Management & Revenue Growth -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#7d2d2d;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
@@ -543,7 +689,6 @@
         </div>
       </div>
 
-      <!-- CRM & Marketing Automation -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#9e3a3a;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -563,7 +708,6 @@
         </div>
       </div>
 
-      <!-- Data-Driven Growth & Optimization -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#c09080;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -581,7 +725,6 @@
         </div>
       </div>
 
-      <!-- Cross-Functional Leadership -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#a07878;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -599,7 +742,6 @@
         </div>
       </div>
 
-      <!-- Customer Success & Retention -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#7d2d2d;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -617,7 +759,6 @@
         </div>
       </div>
 
-      <!-- Multichannel Campaign Execution -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#9e3a3a;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -635,7 +776,6 @@
         </div>
       </div>
 
-      <!-- Bilingual & International Experience -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#c09080;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -652,7 +792,6 @@
         </div>
       </div>
 
-      <!-- Content & Design -->
       <div class="skill-card">
         <div class="skill-icon" style="background:#1a0808;color:#a07878;">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
@@ -757,21 +896,27 @@
     <div class="lang-grid">
       <div class="lang-card">
         <span class="lang-flag">&#127467;&#127479;</span>
-        <h3>French</h3>
-        <p class="lang-level">Native</p>
-        <div class="lang-bar"><div class="lang-bar-fill" style="--level:100%"></div></div>
+        <div class="lang-info">
+          <h3>French</h3>
+          <p class="lang-level">Native</p>
+          <div class="lang-bar"><div class="lang-bar-fill" style="--level:100%"></div></div>
+        </div>
       </div>
       <div class="lang-card">
         <span class="lang-flag">&#127468;&#127463;</span>
-        <h3>English</h3>
-        <p class="lang-level">Fluent / Bilingual</p>
-        <div class="lang-bar"><div class="lang-bar-fill" style="--level:95%"></div></div>
+        <div class="lang-info">
+          <h3>English</h3>
+          <p class="lang-level">Fluent / Bilingual</p>
+          <div class="lang-bar"><div class="lang-bar-fill" style="--level:95%"></div></div>
+        </div>
       </div>
       <div class="lang-card">
         <span class="lang-flag">&#127466;&#127480;</span>
-        <h3>Spanish</h3>
-        <p class="lang-level">Actively Learning</p>
-        <div class="lang-bar"><div class="lang-bar-fill" style="--level:35%"></div></div>
+        <div class="lang-info">
+          <h3>Spanish</h3>
+          <p class="lang-level">Actively Learning</p>
+          <div class="lang-bar"><div class="lang-bar-fill" style="--level:35%"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -789,7 +934,7 @@
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         julie.pedeville@gmail.com
       </a>
-      <a href="https://www.linkedin.com/in/julie-pedeville" target="_blank" class="cta-linkedin">
+      <a href="https://www.linkedin.com/in/julie-pedeville" target="_blank" rel="noopener noreferrer" class="cta-linkedin">
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
         LinkedIn Profile
       </a>
@@ -802,15 +947,34 @@
 </section>
 
 <footer>
-  &copy; 2026 Julie Pédeville. Built with purpose.
+  &copy; 2026 Julie P&eacute;deville. Built with purpose.
 </footer>
 
 <script>
+  // Mobile nav toggle with animated hamburger
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => links.classList.toggle('open'));
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    toggle.classList.toggle('active', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.classList.remove('active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
 
+  // Close mobile menu on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('nav') && links.classList.contains('open')) {
+      links.classList.remove('open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Intersection observer for scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -821,6 +985,7 @@
   }, { threshold: 0.15 });
   document.querySelectorAll('.timeline-item, .skill-card, .lang-card, .internship-card').forEach(el => observer.observe(el));
 
+  // Active nav link tracking + hide-on-scroll navbar
   const sections = document.querySelectorAll('section[id]');
   const navAnchors = document.querySelectorAll('.nav-links a');
   let lastScroll = 0;
@@ -832,9 +997,7 @@
     const cs = window.scrollY;
     navbar.classList.toggle('hidden', cs > lastScroll && cs > 100);
     lastScroll = cs;
-  });
+  }, { passive: true });
 </script>
 </body>
 </html>
-
-[index (3).html](https://github.com/user-attachments/files/25371944/index.3.html)
